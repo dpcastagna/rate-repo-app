@@ -21,13 +21,16 @@ const styles = StyleSheet.create({
     // paddingBottom: Constants.statusBarHeight,
     paddingLeft: Constants.statusBarHeight,
     paddingRight: Constants.statusBarHeight,
+    flexGrow: 1,
+    flexShrink: 1,
   },
   bigBox: {
     display: 'flex',
     flexDirection: 'row',
   },
   descBox: {
-    flexShrink: 1,
+    display: 'flex',
+    // flexShrink: 1,
     // flexWrap: 'wrap',
   },
   langBox: {
