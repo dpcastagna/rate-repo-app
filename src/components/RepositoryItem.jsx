@@ -1,28 +1,34 @@
-import { Text, Image, StyleSheet, View } from 'react-native';
+import { Image, StyleSheet, View } from 'react-native';
 import Constants from 'expo-constants';
+import Text from './Text';
+
+import theme from '../theme';
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 50,
-    width: 0,
-    flexGrow: 1,
-    flex: 1,
+    paddingTop: 10,
+    paddingBottom: 10,
+    // width: 0,
+    // flexGrow: 1,
+    // flex: 1,
+    backgroundColor: 'white',
   },
   tinyLogo: {
     width: 50,
     height: 50,
+    borderRadius: 3,
   },
   logo: {
     width: 66,
     height: 58,
   },
   box: {
-    paddingTop: Constants.statusBarHeight,
+    // paddingTop: Constants.statusBarHeight,
     // paddingBottom: Constants.statusBarHeight,
     paddingLeft: Constants.statusBarHeight,
     paddingRight: Constants.statusBarHeight,
-    flexGrow: 1,
-    flexShrink: 1,
+    // flexGrow: 1,
+    flexShrink: 1, //prevents text going offscreen
   },
   bigBox: {
     display: 'flex',
@@ -35,9 +41,14 @@ const styles = StyleSheet.create({
   },
   langBox: {
     display: 'flex',
-    flexGrow: 0,
+    // flexGrow: 0,
+    borderRadius: 3,
+    paddingTop: 3,
+    paddingBottom: 3,
+    paddingLeft: 5,
+    paddingRight: 3,
     color: '#FFFFFF',
-    backgroundColor: '#0000FF'
+    backgroundColor: theme.colors.primary,
   },
 });
 
@@ -53,9 +64,9 @@ const RepositoryItem = ({item}) => {
     //   backgroundColor={backgroundColor}
     //   textColor={color}
     // />
-    <View>
-      <View style={styles.bigBox}>
-        <View style={styles.box}>
+    <View style={styles.container} >
+      <View style={styles.bigBox} >
+        <View style={styles.box} >
           <Image
             style={styles.tinyLogo}
             source={{
@@ -63,19 +74,19 @@ const RepositoryItem = ({item}) => {
             }} 
           />
         </View>
-        <View style={styles.box}>
-          <Text>
+        <View style={styles.box} >
+          <Text fontWeight="bold" fontSize="subheading" >
             {item.fullName}{"\n"}
           </Text>
-          <Text style={styles.descBox}>
+          <Text style={styles.descBox} >
             {item.description}{"\n"}
           </Text>
-          <Text style={styles.langBox}>
+          <Text style={styles.langBox} >
             {item.language}
           </Text>
         </View>
       </View>
-      <Text style={styles.box}>
+      <Text style={styles.box} >
         Stars: {item.stargazersCount}{"\n"}
         Forks: {item.forksCount}{"\n"}
         Reviews: {item.reviewCount}{"\n"}

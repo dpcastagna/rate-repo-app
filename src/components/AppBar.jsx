@@ -1,4 +1,4 @@
-import { View, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet, Text, Pressable } from 'react-native';
 import Constants from 'expo-constants';
 
 const styles = StyleSheet.create({
@@ -19,12 +19,18 @@ const styles = StyleSheet.create({
   }
 });
 
+const onPressFunction = () => {
+  console.log('Pressed!');
+};
+
 const AppBar = () => {
   return (
     <View style={styles.container}>
-      <Text style={styles.item}>
-        Repositories
-      </Text>
+      <Pressable onPress={onPressFunction} >
+        <Text style={styles.item}>
+          Repositories
+        </Text>
+      </Pressable>
     </View>
   )
 };
