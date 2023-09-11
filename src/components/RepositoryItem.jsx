@@ -22,17 +22,25 @@ const styles = StyleSheet.create({
     width: 66,
     height: 58,
   },
+  topBox: {
+    display: 'flex',
+    flexDirection: 'row',
+  },
+  logoBox: {
+    // paddingTop: Constants.statusBarHeight,
+    // paddingBottom: Constants.statusBarHeight,
+    paddingLeft: Constants.statusBarHeight,
+    // paddingRight: Constants.statusBarHeight,
+    flex: 1,
+    // flexShrink: 1, //prevents text going offscreen
+  },
   box: {
     // paddingTop: Constants.statusBarHeight,
     // paddingBottom: Constants.statusBarHeight,
     paddingLeft: Constants.statusBarHeight,
     paddingRight: Constants.statusBarHeight,
-    // flexGrow: 1,
+    flex: 5,
     flexShrink: 1, //prevents text going offscreen
-  },
-  bigBox: {
-    display: 'flex',
-    flexDirection: 'row',
   },
   descBox: {
     display: 'flex',
@@ -41,14 +49,21 @@ const styles = StyleSheet.create({
   },
   langBox: {
     display: 'flex',
+    // flex: 0,
     // flexGrow: 0,
+    // flexShrink: 1,
+    // marginEnd: '90%',
+    // flexDirection: 'row',
+    // justifyContent: 'center',
+    alignContent: 'flex-start',
     borderRadius: 3,
-    paddingTop: 3,
-    paddingBottom: 3,
+    paddingTop: 5,
+    paddingBottom: 5,
     paddingLeft: 5,
-    paddingRight: 3,
+    paddingRight: 5,
     color: '#FFFFFF',
     backgroundColor: theme.colors.primary,
+    
   },
 });
 
@@ -65,8 +80,8 @@ const RepositoryItem = ({item}) => {
     //   textColor={color}
     // />
     <View style={styles.container} >
-      <View style={styles.bigBox} >
-        <View style={styles.box} >
+      <View style={styles.topBox} >
+        <View style={styles.logoBox} >
           <Image
             style={styles.tinyLogo}
             source={{
@@ -81,9 +96,11 @@ const RepositoryItem = ({item}) => {
           <Text style={styles.descBox} >
             {item.description}{"\n"}
           </Text>
-          <Text style={styles.langBox} >
-            {item.language}
-          </Text>
+          <View style={{ display: 'flex', flexDirection: 'row'}}>
+            <Text style={styles.langBox}>
+              {item.language}
+            </Text>
+          </View>
         </View>
       </View>
       <Text style={styles.box} >
