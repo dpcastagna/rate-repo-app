@@ -25,6 +25,7 @@ const styles = StyleSheet.create({
   topBox: {
     display: 'flex',
     flexDirection: 'row',
+    paddingBottom: Constants.statusBarHeight,
   },
   logoBox: {
     // paddingTop: Constants.statusBarHeight,
@@ -54,7 +55,7 @@ const styles = StyleSheet.create({
     // flexShrink: 1,
     // marginEnd: '90%',
     // flexDirection: 'row',
-    // justifyContent: 'center',
+    // justifyContent: 'start',
     alignContent: 'flex-start',
     borderRadius: 3,
     paddingTop: 5,
@@ -63,15 +64,57 @@ const styles = StyleSheet.create({
     paddingRight: 5,
     color: '#FFFFFF',
     backgroundColor: theme.colors.primary,
-    
+  },
+  bottomBox: {
+    display: 'flex',
+    flexDirection: 'row',
+    // paddingBottom: Constants.statusBarHeight,
+    justifyContent: 'space-evenly',
+  },
+  bottomItem: {
+    // paddingTop: Constants.statusBarHeight,
+    // paddingBottom: Constants.statusBarHeight,
+    // paddingLeft: Constants.statusBarHeight,
+    // paddingRight: Constants.statusBarHeight,
+    // flex: 1,
+    // flexShrink: 1, //prevents text going offscreen
+    // justifyContent: 'center',
+    textAlign: 'center',
   },
 });
 
+const ParseItem = (props) => {
+  const itemData = props.itemData;
+  const itemText = props.itemText;
+
+  if (itemData > 1000) {
+    return (
+      <View >
+        <Text style={styles.bottomItem} fontWeight="bold" fontSize="subheading" >
+          {Number.parseFloat(itemData / 1000).toFixed(1)}k
+        </Text>
+        <Text style={styles.bottomItem}>
+          {itemText}
+        </Text>
+      </View>
+    )
+  }
+
+  return (
+    <View >
+      <Text style={styles.bottomItem} fontWeight="bold" fontSize="subheading" >
+        {itemData}
+      </Text>
+      <Text>
+        {itemText}
+      </Text>
+    </View>
+  )
+}
 
 const RepositoryItem = ({item}) => {
   // const backgroundColor = item.id === selectedId ? '#6e3b6e' : '#f9c2ff';
   // const color = item.id === selectedId ? 'white' : 'black';
-
   return (
     // <Item
     //   item={item}
@@ -96,19 +139,35 @@ const RepositoryItem = ({item}) => {
           <Text style={styles.descBox} >
             {item.description}{"\n"}
           </Text>
-          <View style={{ display: 'flex', flexDirection: 'row'}}>
+          <View style={{ display: 'flex', flexDirection: 'row' }} >
             <Text style={styles.langBox}>
               {item.language}
             </Text>
           </View>
         </View>
       </View>
-      <Text style={styles.box} >
-        Stars: {item.stargazersCount}{"\n"}
-        Forks: {item.forksCount}{"\n"}
-        Reviews: {item.reviewCount}{"\n"}
-        Rating: {item.ratingAverage}
-      </Text>
+      <View style={styles.bottomBox} >
+        <ParseItem itemData={item.stargazersCount} itemText={"Stars"} />
+        <ParseItem itemData={item.forksCount} itemText={"Forks"} />
+        <ParseItem itemData={item.reviewCount} itemText={"Reviews"} />
+        <ParseItem itemData={item.ratingAverage} itemText={"Rating"} />
+        {/* <Text style={styles.bottomItem} >
+          {item.stargazersCount}{"\n"}
+          Stars
+        </Text>
+        <Text style={styles.bottomItem} >
+          {item.forksCount}{"\n"}
+          Forks
+        </Text>
+        <Text style={styles.bottomItem} >
+          {item.reviewCount}{"\n"}
+          Reviews
+        </Text>
+        <Text style={styles.bottomItem} >
+          {item.ratingAverage}{"\n"}
+          Rating
+        </Text> */}
+      </View>
     </View>
   );
 };
