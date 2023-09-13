@@ -2,6 +2,8 @@ import { View, StyleSheet, Text, Pressable, ScrollView } from 'react-native';
 import Constants from 'expo-constants';
 import { Link } from "react-router-native";
 
+import theme from '../theme';
+
 const styles = StyleSheet.create({
   container: {
     paddingTop: Constants.statusBarHeight,
@@ -12,6 +14,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
     backgroundColor: '#24292e',
+    font: theme.fonts.main,
   },
   item: {
     color: '#FFFFFF',
