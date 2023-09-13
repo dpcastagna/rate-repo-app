@@ -10,14 +10,25 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   textBox: {
-    width: "100%",
     borderStyle: "solid",
-    borderColor: "black",
+    borderWidth: 2,
+    borderColor: "gray",
     borderRadius: 3,
-    paddingTop: 5,
-    paddingBottom: 5,
-    paddingLeft: 5,
-    paddingRight: 5,
+    padding: 10,
+    margin: 10,
+    // flexShrink: 1,
+  },
+  loginButton: {
+    padding: 10,
+    margin: 10,
+    borderRadius: 3,
+    backgroundColor: theme.colors.primary,
+  },
+  loginText: {
+    color: '#FFFFFF',
+    textAlign: 'center',
+    fontWeight: theme.fontWeights.bold,
+    fontSize: theme.fontSizes.subheading,
   }
 });
 
@@ -32,8 +43,8 @@ const SignInForm = ({ onSubmit }) => {
     <View>
       <FormikTextInput style={styles.textBox} name="username" placeholder="Username" />
       <FormikTextInput style={styles.textBox} name="password" placeholder="Password" secureTextEntry={true} />
-      <Pressable onPress={onSubmit}>
-        <Text>Log in</Text>
+      <Pressable style={styles.loginButton} onPress={onSubmit}>
+        <Text style={styles.loginText}>Sign in</Text>
       </Pressable>
     </View>
   );
