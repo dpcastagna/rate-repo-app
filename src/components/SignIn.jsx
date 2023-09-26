@@ -78,10 +78,6 @@ const SignIn = () => {
   const [signIn] = useSignIn();
 
   const onSubmit = async values => {
-    // console.log(values);
-    // const token = signIn({username: values.username, password: values.password});
-    // console.log(token, result);
-
     const { username, password } = values;
 
     try {
