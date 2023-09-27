@@ -8,7 +8,6 @@ import useSignIn from '../hooks/useSignIn';
 
 import theme from '../theme';
 import { useNavigate } from 'react-router-native';
-import { useState } from 'react';
 
 const styles = StyleSheet.create({
   errorText: {

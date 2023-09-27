@@ -4,7 +4,7 @@ import { Link } from "react-router-native";
 
 import { useEffect, useState } from 'react';
 import useAuthStorage  from '../hooks/useAuthStorage';
-import { useQuery } from '@apollo/client';
+import { useQuery, useApolloClient } from '@apollo/client';
 import { GET_ME } from '../graphql/queries';
 
 import theme from '../theme';
@@ -31,11 +31,12 @@ const styles = StyleSheet.create({
 
 const AppBar = () => {
   const authStorage = useAuthStorage();
-  const [token, setToken] = useState('');
+  const [token, setToken] = useState(null);
+  const apolloClient = useApolloClient();
   const { data } = useQuery(GET_ME, {
     fetchPolicy: 'cache-and-network',
   });
-  console.log('AppBar ME: ', data);
+  // console.log('AppBar ME: ', data);
 
   const checkToken = async () => {
     const oldToken = await authStorage.getAccessToken();
@@ -52,7 +53,13 @@ const AppBar = () => {
     console.log('Pressed!');
   };
 
-  console.log('AppBar token: ', token);
+  const signOutFunction = async () => {
+    // console.log('signOutFunction');
+    await authStorage.removeAccessToken();
+    apolloClient.resetStore();
+  }
+
+  // console.log('AppBar token: ', token);
   return (
     <View style={styles.container}>
       <ScrollView horizontal>
@@ -64,13 +71,20 @@ const AppBar = () => {
           </Link>
         </Pressable>
         <Text>   </Text>
-        <Pressable onPress={onPressFunction} >
-          <Link to="/signin">
+        {data?.me
+        ? <Pressable onPress={signOutFunction} >
             <Text style={styles.item}>
-              Sign In
+              Sign out
             </Text>
-          </Link>
-        </Pressable>
+          </Pressable>
+        : <Pressable onPress={onPressFunction} >
+            <Link to="/signin">
+              <Text style={styles.item}>
+                Sign In
+              </Text>
+            </Link>
+          </Pressable>
+        }
         <Text>   </Text>
       </ScrollView>
     </View>
