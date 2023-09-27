@@ -7,6 +7,8 @@ import * as yup from 'yup';
 import useSignIn from '../hooks/useSignIn';
 
 import theme from '../theme';
+import { useNavigate } from 'react-router-native';
+import { useState } from 'react';
 
 const styles = StyleSheet.create({
   errorText: {
@@ -76,13 +78,15 @@ const SignInForm = ({ onSubmit }) => {
 
 const SignIn = () => {
   const [signIn] = useSignIn();
+  const navigate = useNavigate();
 
   const onSubmit = async values => {
     const { username, password } = values;
-
+    
     try {
       const { data } = await signIn({ username, password });
       console.log(data);
+      navigate('/');
     } catch (e) {
       console.log(e);
     }
