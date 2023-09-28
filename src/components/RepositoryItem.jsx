@@ -122,7 +122,7 @@ const RepositoryItem = ({item}) => {
     //   backgroundColor={backgroundColor}
     //   textColor={color}
     // />
-    <View style={styles.container} >
+    <View testID="repositoryItem" style={styles.container} >
       <View style={styles.topBox} >
         <View style={styles.logoBox} >
           <Image
