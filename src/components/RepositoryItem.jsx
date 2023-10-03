@@ -1,8 +1,9 @@
-import { Image, StyleSheet, View } from 'react-native';
+import { Image, Pressable, StyleSheet, View } from 'react-native';
 import Constants from 'expo-constants';
 import Text from './Text';
 
 import theme from '../theme';
+import { useNavigate, redirect } from 'react-router-native';
 
 const styles = StyleSheet.create({
   container: {
@@ -115,6 +116,13 @@ const ParseItem = (props) => {
 const RepositoryItem = ({item}) => {
   // const backgroundColor = item.id === selectedId ? '#6e3b6e' : '#f9c2ff';
   // const color = item.id === selectedId ? 'white' : 'black';
+  // const navigate = useNavigate();
+
+  const onPressFunction = () => {
+    console.log('RepositoryItem onPressFunction', item?.id);
+    redirect(`/${item?.id}`);
+  }
+
   return (
     // <Item
     //   item={item}
@@ -123,51 +131,53 @@ const RepositoryItem = ({item}) => {
     //   textColor={color}
     // />
     <View testID="repositoryItem" style={styles.container} >
-      <View style={styles.topBox} >
-        <View style={styles.logoBox} >
-          <Image
-            style={styles.tinyLogo}
-            source={{
-              uri: item.ownerAvatarUrl,
-            }} 
-          />
-        </View>
-        <View style={styles.box} >
-          <Text fontWeight="bold" fontSize="subheading" >
-            {item.fullName}{"\n"}
-          </Text>
-          <Text style={styles.descBox} >
-            {item.description}{"\n"}
-          </Text>
-          <View style={{ display: 'flex', flexDirection: 'row' }} >
-            <Text style={styles.langBox}>
-              {item.language}
+      <Pressable onPress={onPressFunction} >
+        <View style={styles.topBox} >
+          <View style={styles.logoBox} >
+            <Image
+              style={styles.tinyLogo}
+              source={{
+                uri: item.ownerAvatarUrl,
+              }} 
+            />
+          </View>
+          <View style={styles.box} >
+            <Text fontWeight="bold" fontSize="subheading" >
+              {item.fullName}{"\n"}
             </Text>
+            <Text style={styles.descBox} >
+              {item.description}{"\n"}
+            </Text>
+            <View style={{ display: 'flex', flexDirection: 'row' }} >
+              <Text style={styles.langBox}>
+                {item.language}
+              </Text>
+            </View>
           </View>
         </View>
-      </View>
-      <View style={styles.bottomBox} >
-        <ParseItem itemData={item.stargazersCount} itemText={"Stars"} />
-        <ParseItem itemData={item.forksCount} itemText={"Forks"} />
-        <ParseItem itemData={item.reviewCount} itemText={"Reviews"} />
-        <ParseItem itemData={item.ratingAverage} itemText={"Rating"} />
-        {/* <Text style={styles.bottomItem} >
-          {item.stargazersCount}{"\n"}
-          Stars
-        </Text>
-        <Text style={styles.bottomItem} >
-          {item.forksCount}{"\n"}
-          Forks
-        </Text>
-        <Text style={styles.bottomItem} >
-          {item.reviewCount}{"\n"}
-          Reviews
-        </Text>
-        <Text style={styles.bottomItem} >
-          {item.ratingAverage}{"\n"}
-          Rating
-        </Text> */}
-      </View>
+        <View style={styles.bottomBox} >
+          <ParseItem itemData={item.stargazersCount} itemText={"Stars"} />
+          <ParseItem itemData={item.forksCount} itemText={"Forks"} />
+          <ParseItem itemData={item.reviewCount} itemText={"Reviews"} />
+          <ParseItem itemData={item.ratingAverage} itemText={"Rating"} />
+          {/* <Text style={styles.bottomItem} >
+            {item.stargazersCount}{"\n"}
+            Stars
+          </Text>
+          <Text style={styles.bottomItem} >
+            {item.forksCount}{"\n"}
+            Forks
+          </Text>
+          <Text style={styles.bottomItem} >
+            {item.reviewCount}{"\n"}
+            Reviews
+          </Text>
+          <Text style={styles.bottomItem} >
+            {item.ratingAverage}{"\n"}
+            Rating
+          </Text> */}
+        </View>
+      </Pressable>
     </View>
   );
 };
