@@ -3,7 +3,7 @@ import Constants from 'expo-constants';
 import Text from './Text';
 
 import theme from '../theme';
-import { useNavigate, redirect } from 'react-router-native';
+import { useNavigate } from 'react-router-native';
 
 const styles = StyleSheet.create({
   container: {
@@ -116,11 +116,12 @@ const ParseItem = (props) => {
 const RepositoryItem = ({item}) => {
   // const backgroundColor = item.id === selectedId ? '#6e3b6e' : '#f9c2ff';
   // const color = item.id === selectedId ? 'white' : 'black';
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
+  // console.log(item);
 
   const onPressFunction = () => {
     console.log('RepositoryItem onPressFunction', item?.id);
-    redirect(`/${item?.id}`);
+    navigate(`/${item?.id}`);
   }
 
   return (
