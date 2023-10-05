@@ -2,7 +2,7 @@ import RepositoryItem from "./RepositoryItem";
 import { GET_SINGLE_REPOSITORY } from "../graphql/queries";
 import { useQuery } from "@apollo/client";
 import { useParams } from "react-router-native";
-import { View, Text, StyleSheet, Pressable } from "react-native";
+import { View, Text, StyleSheet, Pressable, FlatList } from "react-native";
 import * as Linking from 'expo-linking';
 
 import theme from "../theme";
@@ -28,6 +28,30 @@ const styles = StyleSheet.create({
   }
 });
 
+const RepositoryInfo = ({ data }) => {
+  // Repository's information implemented in the previous exercise
+  return (
+    <View>
+      <View>
+          <RepositoryItem item={data.repository} />
+      </View>
+      <View>
+        <Pressable onPress={() => Linking.openURL(data.repository.url)}>
+          <View style={styles.linkButton}>
+            <Text style={styles.linkText}>
+              Open in GitHub
+            </Text>
+          </View>
+        </Pressable>
+      </View>
+    </View>
+  )
+};
+
+const ReviewItem = ({ review }) => {
+  // Single review item
+};
+
 const SingleRepository = () => {
   const id = useParams().id;
   const { data, error, loading } = useQuery(GET_SINGLE_REPOSITORY, {variables: {repositoryId: id}});
@@ -43,18 +67,22 @@ const SingleRepository = () => {
           <RepositoryItem item={data.repository} />
       </View>
       <View>
-      {id
-        ? <Pressable onPress={() => Linking.openURL(data.repository.url)}>
-            <View style={styles.linkButton}>
-              <Text style={styles.linkText}>
-                Open in GitHub
-              </Text>
-            </View>
-          </Pressable>
-        : <></>
-        }
-        </View>
+        <Pressable onPress={() => Linking.openURL(data.repository.url)}>
+          <View style={styles.linkButton}>
+            <Text style={styles.linkText}>
+              Open in GitHub
+            </Text>
+          </View>
+        </Pressable>
+      </View>
     </View>
+    // <FlatList
+    //   data={reviews}
+    //   renderItem={({ item }) => <ReviewItem review={item} />}
+    //   keyExtractor={({ id }) => id}
+    //   ListHeaderComponent={() => <RepositoryInfo repository={repository} />}
+    // // ...
+    // />
   )
 }
 
