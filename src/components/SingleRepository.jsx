@@ -2,15 +2,17 @@ import RepositoryItem from "./RepositoryItem";
 import { GET_SINGLE_REPOSITORY } from "../graphql/queries";
 import { useQuery } from "@apollo/client";
 import { useParams } from "react-router-native";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Pressable } from "react-native";
+import * as Linking from 'expo-linking';
 
 import theme from "../theme";
 
 const styles = StyleSheet.create({
   linkButton: {
-    display: 'flex',
-    flexDirection: 'row',
-    flex: 1,
+    // display: 'flex',
+    // flexDirection: 'column',
+    // flex: 1,
+    // width: 500,
     padding: 10,
     margin: 10,
     borderRadius: 3,
@@ -21,6 +23,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontWeight: theme.fontWeights.bold,
     fontSize: theme.fontSizes.subheading,
+    // display: 'flex',
+    // flexDirection: 'column',
   }
 });
 
@@ -35,17 +39,21 @@ const SingleRepository = () => {
 
   return (
     <View>
-      <Text>
-        <RepositoryItem item={data.repository} />;
-        {id
-        ? <View style={styles.linkButton}>
-            <Text style={styles.linkText}>
-              Open in GitHub
-            </Text>
-          </View>
+      <View>
+          <RepositoryItem item={data.repository} />
+      </View>
+      <View>
+      {id
+        ? <Pressable onPress={() => Linking.openURL(data.repository.url)}>
+            <View style={styles.linkButton}>
+              <Text style={styles.linkText}>
+                Open in GitHub
+              </Text>
+            </View>
+          </Pressable>
         : <></>
         }
-      </Text>
+        </View>
     </View>
   )
 }

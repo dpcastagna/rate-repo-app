@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontSize: 18,
     // fontWeight: '3000',
-    // paddingLeft: Constants.statusBarHeight,
+    paddingRight: Constants.statusBarHeight,
   }
 });
 
@@ -58,7 +58,6 @@ const AppBar = () => {
     await authStorage.removeAccessToken();
     apolloClient.resetStore();
   }
-
   // console.log('AppBar token: ', token);
   return (
     <View style={styles.container}>
@@ -70,7 +69,6 @@ const AppBar = () => {
             </Text>
           </Link>
         </Pressable>
-        <Text>   </Text>
         {data?.me
         ? <Pressable onPress={signOutFunction} >
             <Text style={styles.item}>
@@ -85,7 +83,6 @@ const AppBar = () => {
             </Link>
           </Pressable>
         }
-        <Text>   </Text>
       </ScrollView>
     </View>
   )

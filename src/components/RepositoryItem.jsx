@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     paddingBottom: 10,
     // width: 0,
-    // flexGrow: 1,
+    // flexShrink: 1,
     // flex: 1,
     backgroundColor: 'white',
   },
@@ -26,9 +26,10 @@ const styles = StyleSheet.create({
   topBox: {
     display: 'flex',
     flexDirection: 'row',
+    // flexShrink: 1,
     paddingBottom: Constants.statusBarHeight,
   },
-  logoBox: {
+  topLeft: {
     // paddingTop: Constants.statusBarHeight,
     // paddingBottom: Constants.statusBarHeight,
     paddingLeft: Constants.statusBarHeight,
@@ -36,16 +37,17 @@ const styles = StyleSheet.create({
     flex: 1,
     // flexShrink: 1, //prevents text going offscreen
   },
-  box: {
+  topRight: {
     // paddingTop: Constants.statusBarHeight,
     // paddingBottom: Constants.statusBarHeight,
     paddingLeft: Constants.statusBarHeight,
     paddingRight: Constants.statusBarHeight,
     flex: 5,
-    flexShrink: 1, //prevents text going offscreen
+    // flexShrink: 1, //prevents text going offscreen
   },
   descBox: {
-    display: 'flex',
+    // display: 'flex',
+    // flexDirection: 'row',
     // flexShrink: 1,
     // flexWrap: 'wrap',
   },
@@ -134,7 +136,7 @@ const RepositoryItem = ({item}) => {
     <View testID="repositoryItem" style={styles.container} >
       <Pressable onPress={onPressFunction} >
         <View style={styles.topBox} >
-          <View style={styles.logoBox} >
+          <View style={styles.topLeft} >
             <Image
               style={styles.tinyLogo}
               source={{
@@ -142,7 +144,7 @@ const RepositoryItem = ({item}) => {
               }} 
             />
           </View>
-          <View style={styles.box} >
+          <View style={styles.topRight} >
             <Text fontWeight="bold" fontSize="subheading" >
               {item.fullName}{"\n"}
             </Text>
