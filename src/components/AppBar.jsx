@@ -53,6 +53,10 @@ const AppBar = () => {
     console.log('Pressed!');
   };
 
+  const reviewFunction = () => {
+    console.log('Pressed review!');
+  };
+
   const signOutFunction = async () => {
     // console.log('signOutFunction');
     await authStorage.removeAccessToken();
@@ -70,11 +74,25 @@ const AppBar = () => {
           </Link>
         </Pressable>
         {data?.me
-        ? <Pressable onPress={signOutFunction} >
-            <Text style={styles.item}>
-              Sign out
-            </Text>
-          </Pressable>
+        ? <View>
+            <Pressable onPress={reviewFunction} >
+              <Link to="/review">
+                <Text style={styles.item}>
+                  Create a review
+                </Text>
+              </Link>
+            </Pressable>
+          </View>
+        : <></>
+        }
+        {data?.me
+        ? <View>
+            <Pressable onPress={signOutFunction} >
+              <Text style={styles.item}>
+                Sign out
+              </Text>
+            </Pressable>
+          </View>
         : <Pressable onPress={onPressFunction} >
             <Link to="/signin">
               <Text style={styles.item}>
