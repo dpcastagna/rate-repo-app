@@ -47,10 +47,10 @@ const styles = StyleSheet.create({
 });
 
 const validationSchema = yup.object().shape({
-  reposityOwner: yup
+  ownerName: yup
     .string()
     .required('Repository owner name is required'),
-  reposityName: yup
+  repositoryName: yup
     .string()
     .required('Repository name is required'),
   rating: yup
@@ -58,26 +58,26 @@ const validationSchema = yup.object().shape({
     .min(0, 'Rating must be a number between 0 and 100')
     .max(100, 'Rating must be a number between 0 and 100')
     .required('Rating is required'),
-  review: yup
+  text: yup
     .string()
     .optional(),
 });
 
 const initialValues = {
-  reposityOwner: '',
-  reposityName: '',
-  rating: '',
-  review: '',
+  ownerName: '',
+  repositoryName: '',
+  rating: 0,
+  text: '',
 };
 
 const ReviewForm = ({ onSubmit }) => {
 
   return (
     <View>
-      <FormikTextInput style={styles.textBox} name="reposityOwner" placeholder="Reposity owner name" />
-      <FormikTextInput style={styles.textBox} name="reposityName" placeholder="Reposity name" />
+      <FormikTextInput style={styles.textBox} name="ownerName" placeholder="Repository owner name" />
+      <FormikTextInput style={styles.textBox} name="repositoryName" placeholder="Repository name" />
       <FormikTextInput style={styles.textBox} name="rating" placeholder="Rating between 0 and 100" />
-      <FormikTextInput style={styles.textBox} name="review" placeholder="Review" multiline />
+      <FormikTextInput style={styles.textBox} name="text" placeholder="Review" multiline />
       <Pressable style={styles.formButton} onPress={onSubmit}>
         <Text style={styles.formButtonText}>Create a review</Text>
       </Pressable>
@@ -103,15 +103,17 @@ const Review = () => {
   const navigate = useNavigate();
 
   const onSubmit = async values => {
-    const repositoryOwner = values.repositoryOwner;
+    const ownerName = values.ownerName;
     const repositoryName = values.repositoryName;
     const rating = Number(values.rating);
-    const review = values.review;
+    const text = values.text;
+
+    // console.log(ownerName, repositoryName, rating, text);
     
     try {
-      const { data } = await createReview({ repositoryOwner, repositoryName, rating, review });
+      const { data } = await createReview({ ownerName, repositoryName, rating, text });
       console.log(data);
-      navigate('/');
+      navigate(`/${data.createReview.repositoryId}`);
     } catch (e) {
       console.log(e);
     }

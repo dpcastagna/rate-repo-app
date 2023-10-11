@@ -4,15 +4,15 @@ import { useMutation, /* useApolloClient */ } from '@apollo/client';
 
 import { CREATEREVIEW } from '../graphql/mutations';
 
-
 const useCreateReview = () => {
   // const authStorage = useAuthStorage();
   // const apolloClient = useApolloClient();
   const [mutate, result] = useMutation(CREATEREVIEW);
 
-  const createReview = async ({ repositoryOwner, repositoryName, rating, review }) => {
+  const createReview = async ({ ownerName, repositoryName, rating, text }) => {
     // call the mutate function here with the right arguments
-    const repository = await mutate({ variables: {review: { repositoryOwner, repositoryName, rating, review }} });
+    // console.log(ownerName, repositoryName, rating, text);
+    const repository = await mutate({ variables: {review: { ownerName, repositoryName, rating, text }} });
     // console.log(authStorage, token.data.authenticate.accessToken);
 
     // await authStorage.setAccessToken(token.data.authenticate.accessToken);

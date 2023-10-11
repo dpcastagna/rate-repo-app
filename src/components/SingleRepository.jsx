@@ -125,7 +125,10 @@ const ReviewItem = ({ review }) => {
 
 const SingleRepository = () => {
   const id = useParams().id;
-  const { data, error, loading } = useQuery(GET_SINGLE_REPOSITORY, {variables: {repositoryId: id}});
+  const { data, error, loading } = useQuery(GET_SINGLE_REPOSITORY, {
+    fetchPolicy: 'cache-and-network',
+    variables: {repositoryId: id}
+  });
 
   if (loading) {
     return <View><Text>Loading...</Text></View>
@@ -133,7 +136,7 @@ const SingleRepository = () => {
 
   const repository = data.repository;
   const reviews = data.repository.reviews.edges.map((edge) => edge.node);
-  console.log(id, data, error, loading, repository, reviews);
+  // console.log(id, data, error, loading, repository, reviews);
 
   return (
     <FlatList

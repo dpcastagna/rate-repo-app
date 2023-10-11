@@ -101,6 +101,16 @@ const AppBar = () => {
             </Link>
           </Pressable>
         }
+        {data?.me
+        ? <></>
+        : <Pressable onPress={onPressFunction} >
+            <Link to="/signup">
+              <Text style={styles.item}>
+                Sign Up
+              </Text>
+            </Link>
+          </Pressable>
+        }
       </ScrollView>
     </View>
   )
