@@ -21,6 +21,16 @@ class AuthStorage {
     // Remove the access token from the storage
     await AsyncStorage.removeItem(`${this.namespace}:token`);
   }
+
+  async getSorter() {
+    const sorter = await AsyncStorage.getItem(`${this.namespace}:sorter`);
+
+    return sorter ? sorter : 'latest';
+  }
+
+  async setSorter(sorter) {
+    await AsyncStorage.setItem(`${this.namespace}:sorter`, sorter);
+  }
 }
 
 export default AuthStorage;

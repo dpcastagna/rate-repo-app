@@ -1,8 +1,9 @@
 import { FlatList, View, StyleSheet, Text } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import RepositoryItem from './RepositoryItem';
-import { useState, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import useRepositories from '../hooks/useRepositories';
+import useAuthStorage from '../hooks/useAuthStorage';
 import theme from '../theme'
 
 const styles = StyleSheet.create({
@@ -21,7 +22,7 @@ const styles = StyleSheet.create({
 
 const ItemSeparator = () => <View style={styles.separator} />;
 
-const RepositoryListHeader = () => {
+const RepositoryListHeader = ({ setSorter }) => {
   const [selected, setSelected] = useState('latest');
   
   // const pickerRef = useRef();
@@ -42,7 +43,10 @@ const RepositoryListHeader = () => {
         // ref={pickerRef}
         selectedValue={selected}
         onValueChange={(itemValue, itemIndex) =>
-          setSelected(itemValue)
+          {
+            setSelected(itemValue)
+            setSorter(itemValue)
+          }
         }
         prompt="Select an item"
       >
@@ -70,9 +74,21 @@ export const RepositoryListContainer = ({ repositories, header }) => {
 };
 
 const RepositoryList = () => {
-  const { repositories } = useRepositories('CREATED_AT', 'DESC');
+  // const authStorage = useAuthStorage();
+  const [sorter, setSorter] = useState('latest');
+  const { repositories } = useRepositories(sorter);
 
-  return <RepositoryListContainer repositories={repositories} header={RepositoryListHeader} />;
+  // const setSorterFunction = async () => {
+  //   const oldSorter = await authStorage.getSorter();
+  //   console.log('checkSorter: ', oldSorter);
+  // };
+
+  // useEffect(() => {
+  //   checkSorter();
+  // });
+  console.log('repositorylist sorter: ', sorter);
+
+  return <RepositoryListContainer repositories={repositories} header={<RepositoryListHeader setSorter={setSorter} />} />;
 };
 
 export default RepositoryList;

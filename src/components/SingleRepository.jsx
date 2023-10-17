@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
   },
   separator: {
     height: 10,
-    backgroundColor: theme.colors.textSecondary,
+    backgroundColor: theme.colors.textLightGray,
   },
 });
 
@@ -72,6 +72,7 @@ const ItemSeparator = () => <View style={styles.separator} />;
 
 const RepositoryInfo = ({ repository }) => {
   // Repository's information implemented in the previous exercise
+  console.log(repository);
   return (
     <View>
       <View>
@@ -86,7 +87,10 @@ const RepositoryInfo = ({ repository }) => {
           </View>
         </Pressable>
       </View>
-      <ItemSeparator />
+      {repository.reviewCount > 0
+        ? <ItemSeparator />
+        : null
+      }
     </View>
   )
 };
