@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.textLightGray,
   },
   picker: {
-    padding: 20,
+    padding: 10,
     backgroundColor: theme.colors.textLightGray,
   },
   pickerText: {
@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
 
 const ItemSeparator = () => <View style={styles.separator} />;
 
-const RepositoryListHeader = ({ setSorter }) => {
+const RepositoryListHeader = ({ setSorter, setFilter }) => {
   const [selected, setSelected] = useState('latest');
 
 
@@ -30,7 +30,7 @@ const RepositoryListHeader = ({ setSorter }) => {
 
   return (
     <View style={styles.picker} >
-      <RepositorySearch />
+      <RepositorySearch setFilter={setFilter} />
       <Picker
         selectedValue={selected}
         onValueChange={(itemValue, itemIndex) =>
@@ -66,11 +66,12 @@ export const RepositoryListContainer = ({ repositories, header }) => {
 
 const RepositoryList = () => {
   const [sorter, setSorter] = useState('latest');
-  const { repositories } = useRepositories(sorter);
+  const [filter,setFilter] = useState('');
+  const { repositories } = useRepositories(sorter, filter);
 
-  console.log('repositorylist sorter: ', sorter);
+  console.log('repositorylist sorter, filter: ', sorter, filter);
 
-  return <RepositoryListContainer repositories={repositories} header={<RepositoryListHeader setSorter={setSorter} />} />;
+  return <RepositoryListContainer repositories={repositories} header={<RepositoryListHeader setSorter={setSorter} setFilter={setFilter} />} />;
 };
 
 export default RepositoryList;
