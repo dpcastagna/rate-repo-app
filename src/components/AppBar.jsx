@@ -11,9 +11,9 @@ import theme from '../theme';
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: Constants.statusBarHeight,
-    paddingBottom: Constants.statusBarHeight,
-    paddingLeft: Constants.statusBarHeight,
+    // paddingTop: Constants.statusBarHeight,
+    // paddingBottom: Constants.statusBarHeight,
+    // paddingLeft: Constants.statusBarHeight,
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'flex-start',
@@ -25,6 +25,9 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontSize: 18,
     // fontWeight: '3000',
+    paddingTop: Constants.statusBarHeight,
+    paddingBottom: Constants.statusBarHeight,
+    paddingLeft: Constants.statusBarHeight,
     paddingRight: Constants.statusBarHeight,
   }
 });
@@ -65,16 +68,17 @@ const AppBar = () => {
   // console.log('AppBar token: ', token);
   return (
     <View style={styles.container}>
-      <ScrollView horizontal>
-        <Pressable onPress={onPressFunction} >
-          <Link to="/">
-            <Text style={styles.item}>
-              Repositories
-            </Text>
-          </Link>
-        </Pressable>
-        {data?.me
-        ? <View>
+      {
+        data?.me
+        ? //user is logged in
+          <ScrollView horizontal>
+            <Pressable onPress={onPressFunction} >
+              <Link to="/">
+                <Text style={styles.item}>
+                  Repositories
+                </Text>
+              </Link>
+            </Pressable>
             <Pressable onPress={reviewFunction} >
               <Link to="/review">
                 <Text style={styles.item}>
@@ -82,36 +86,44 @@ const AppBar = () => {
                 </Text>
               </Link>
             </Pressable>
-          </View>
-        : <></>
-        }
-        {data?.me
-        ? <View>
+            <Pressable onPress={reviewFunction} >
+              <Link to="/myreviews">
+                <Text style={styles.item}>
+                  My reviews
+                </Text>
+              </Link>
+            </Pressable>
             <Pressable onPress={signOutFunction} >
               <Text style={styles.item}>
                 Sign out
               </Text>
             </Pressable>
-          </View>
-        : <Pressable onPress={onPressFunction} >
-            <Link to="/signin">
-              <Text style={styles.item}>
-                Sign In
-              </Text>
-            </Link>
-          </Pressable>
-        }
-        {data?.me
-        ? <></>
-        : <Pressable onPress={onPressFunction} >
-            <Link to="/signup">
-              <Text style={styles.item}>
-                Sign Up
-              </Text>
-            </Link>
-          </Pressable>
-        }
-      </ScrollView>
+          </ScrollView>
+        : //user is not logged in
+          <ScrollView horizontal>
+            <Pressable onPress={onPressFunction} >
+              <Link to="/">
+                <Text style={styles.item}>
+                  Repositories
+                </Text>
+              </Link>
+            </Pressable>
+            <Pressable onPress={onPressFunction} >
+              <Link to="/signin">
+                <Text style={styles.item}>
+                  Sign In
+                </Text>
+              </Link>
+            </Pressable>
+            <Pressable onPress={onPressFunction} >
+              <Link to="/signup">
+                <Text style={styles.item}>
+                  Sign Up
+                </Text>
+              </Link>
+            </Pressable>
+          </ScrollView>
+      }
     </View>
   )
 };

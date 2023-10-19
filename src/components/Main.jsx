@@ -7,6 +7,7 @@ import RepositoryList from './RepositoryList';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
 import Review from './Review';
+import MyReviews from './MyReviews';
 import AppBar from './AppBar';
 
 import theme from '../theme';
@@ -16,7 +17,7 @@ const styles = StyleSheet.create({
     marginTop: Constants.statusBarHeight,
     flexGrow: 1,
     flexShrink: 1,
-    backgroundColor: theme.colors.mainBackground,
+    // backgroundColor: theme.colors.textLightGray,
   },
 });
 
@@ -30,6 +31,7 @@ const Main = () => {
         <Route path="/signin" element={<SignIn />} exact />
         <Route path="/signup" element={<SignUp />} exact />
         <Route path="/review" element={<Review />} exact />
+        <Route path="/myreviews" element={<MyReviews />} exact />
         <Route path="/:id" element={<SingleRepository />} exact />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

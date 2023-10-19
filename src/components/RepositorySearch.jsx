@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Searchbar } from 'react-native-paper';
 import { useDebounce } from 'use-debounce';
 
@@ -6,9 +6,12 @@ const RepositorySearch = ({ setFilter }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [value] = useDebounce(searchQuery, 500);
 
-  const onChangeSearch = query => setSearchQuery(query);
-  setFilter(value);
-
+  const onChangeSearch = query => {
+    setSearchQuery(query);
+  }
+  useEffect(() => {
+    setFilter(value);
+  }, [value])
   console.log('query, debounced text: ', searchQuery, value);
 
   return (
