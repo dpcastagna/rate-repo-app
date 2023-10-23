@@ -70,7 +70,7 @@ const initialValues = {
   text: '',
 };
 
-const ReviewForm = ({ onSubmit }) => {
+const CreateReviewForm = ({ onSubmit }) => {
 
   return (
     <View>
@@ -85,7 +85,7 @@ const ReviewForm = ({ onSubmit }) => {
   );
 };
 
-export const ReviewContainer = ({ onSubmit }) => {
+export const CreateReviewContainer = ({ onSubmit }) => {
 
   return (
     <Formik 
@@ -93,12 +93,12 @@ export const ReviewContainer = ({ onSubmit }) => {
       onSubmit={onSubmit}
       validationSchema={validationSchema}
     >
-      {({ handleSubmit }) => <ReviewForm onSubmit={handleSubmit} />}
+      {({ handleSubmit }) => <CreateReviewForm onSubmit={handleSubmit} />}
     </Formik>
   );
 }
 
-const Review = () => {
+const CreateReview = () => {
   const [createReview] = useCreateReview();
   const navigate = useNavigate();
 
@@ -119,7 +119,7 @@ const Review = () => {
     }
   };
 
-  return <ReviewContainer onSubmit={onSubmit} />;
+  return <CreateReviewContainer onSubmit={onSubmit} />;
 };
 
-export default Review;
+export default CreateReview;

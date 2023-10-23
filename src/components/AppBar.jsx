@@ -27,8 +27,8 @@ const styles = StyleSheet.create({
     // fontWeight: '3000',
     paddingTop: Constants.statusBarHeight,
     paddingBottom: Constants.statusBarHeight,
-    paddingLeft: Constants.statusBarHeight,
-    paddingRight: Constants.statusBarHeight,
+    paddingLeft: Constants.statusBarHeight / 2,
+    paddingRight: Constants.statusBarHeight / 2,
   }
 });
 
@@ -80,7 +80,7 @@ const AppBar = () => {
               </Link>
             </Pressable>
             <Pressable onPress={reviewFunction} >
-              <Link to="/review">
+              <Link to="/createreview">
                 <Text style={styles.item}>
                   Create a review
                 </Text>
