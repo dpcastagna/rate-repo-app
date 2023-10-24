@@ -72,7 +72,7 @@ const ItemSeparator = () => <View style={styles.separator} />;
 
 const RepositoryInfo = ({ repository }) => {
   // Repository's information implemented in the previous exercise
-  console.log(repository);
+  // console.log(repository);
   return (
     <View>
       <View>
@@ -133,6 +133,7 @@ const SingleRepository = () => {
     fetchPolicy: 'cache-and-network',
     variables: {repositoryId: id}
   });
+  console.log(id);
 
   if (loading) {
     return <View><Text>Loading...</Text></View>

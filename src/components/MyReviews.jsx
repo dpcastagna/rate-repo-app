@@ -1,9 +1,11 @@
-import { View, Text, StyleSheet, FlatList } from "react-native"
+import { View, Text, StyleSheet, FlatList, Pressable, Alert } from "react-native"
+import { Link } from "react-router-native";
 import Constants from 'expo-constants';
-import { useEffect, useState } from 'react';
-import { useQuery, useApolloClient } from '@apollo/client';
+// import { useEffect, useState } from 'react';
+import { useQuery, useMutation /* useApolloClient */ } from '@apollo/client';
+import { DELETE_REVIEW } from "../graphql/mutations";
 
-import useAuthStorage  from '../hooks/useAuthStorage';
+// import useAuthStorage  from '../hooks/useAuthStorage';
 import { GET_ME } from '../graphql/queries';
 
 import theme from "../theme";
@@ -12,8 +14,12 @@ const styles = StyleSheet.create({
   reviewContainer: {
     padding: Constants.statusBarHeight * 0.5,
     display: 'flex',
-    flexDirection: 'row',
+    flexDirection: 'column',
     flex: 1,
+  },
+  reviewTop: {
+    display: 'flex',
+    flexDirection: 'row',
   },
   reviewLeft: {
     flex: 1,
@@ -45,12 +51,23 @@ const styles = StyleSheet.create({
     color: theme.colors.textSecondary,
     paddingBottom: 5,
   },
+  reviewButtons: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    // flexGrow: 1,
+    // flexShrink: 1,
+    marginTop: 10,
+  },
   linkButton: {
     // display: 'flex',
     // flexDirection: 'column',
-    // flex: 1,
+    flex: 1,
     // width: 500,
-    padding: 10,
+    paddingTop: Constants.statusBarHeight * 0.8,
+    paddingBottom: Constants.statusBarHeight * 0.8,
+    paddingLeft: Constants.statusBarHeight * 1.2,
+    paddingRight: Constants.statusBarHeight * 1.2,
     margin: 10,
     borderRadius: 3,
     backgroundColor: theme.colors.primary,
@@ -63,6 +80,19 @@ const styles = StyleSheet.create({
     // display: 'flex',
     // flexDirection: 'column',
   },
+  deleteButton: {
+    // display: 'flex',
+    // flexDirection: 'column',
+    flex: 1,
+    // width: 500,
+    paddingTop: Constants.statusBarHeight * 0.8,
+    paddingBottom: Constants.statusBarHeight * 0.8,
+    paddingLeft: Constants.statusBarHeight * 1.2,
+    paddingRight: Constants.statusBarHeight * 1.2,
+    margin: 10,
+    borderRadius: 3,
+    backgroundColor: theme.colors.error,
+  },
   separator: {
     height: 10,
     backgroundColor: theme.colors.textLightGray,
@@ -71,40 +101,80 @@ const styles = StyleSheet.create({
 
 const ItemSeparator = () => <View style={styles.separator} />;
 
-const ReviewItem = ({ item }) => {
+const ReviewItem = ({ item, refetch }) => {
   console.log(item);
   const createdAt = item.createdAt.split('T')[0].split('-').reverse().join('.');
-  // const id = review.id;
+  const id = item.id;
+  const repositoryId = item.repositoryId;
   const rating = item.rating;
   const reponame = item.repository.fullName;
   const text = item.text;
+  const [mutate, result] = useMutation(DELETE_REVIEW);
+
   // console.log(createdAt, id, rating, username);
+
+  const createTwoButtonAlert = () =>
+    Alert.alert('Delete review', 'Are you sure you want to delete this review?', [
+      {
+        text: 'Cancel',
+        onPress: () => console.log('Cancel Pressed'),
+        style: 'cancel',
+      },
+      {text: 'Delete', onPress: async () => {
+        console.log('Delete Pressed')
+        await mutate({variables: { deleteReviewId: id}})
+        refetch()
+      }},
+    ]);
+  
   return (
     <View style={styles.reviewContainer} >
-      <View style={styles.reviewLeft} >
-        <View style={styles.scoreBox} >
-          <Text style={styles.scoreText} >
-            {rating}
+      <View style={styles.reviewTop}> 
+        <View style={styles.reviewLeft} >
+          <View style={styles.scoreBox} >
+            <Text style={styles.scoreText} >
+              {rating}
+            </Text>
+          </View>
+        </View>
+        <View style={styles.reviewRight} >
+          <Text style={styles.reviewName} >
+            {reponame}
+          </Text>
+          <Text style={styles.reviewDate} >
+            {createdAt}
+          </Text>
+          <Text>
+            {text}
           </Text>
         </View>
       </View>
-      <View style={styles.reviewRight} >
-        <Text style={styles.reviewName} >
-          {reponame}
-        </Text>
-        <Text style={styles.reviewDate} >
-          {createdAt}
-        </Text>
-        <Text>
-          {text}
-        </Text>
+      <View style={styles.reviewButtons}>
+        <Pressable>
+          <Link to={`/${repositoryId}`}>
+            <View style={styles.linkButton}>
+              <Text style={styles.linkText}>
+                View repository
+              </Text>
+            </View>
+          </Link>
+        </Pressable>
+        <Pressable onPress={createTwoButtonAlert}>
+          {/* <Link to={`/${id}`}> */}
+            <View style={styles.deleteButton}>
+              <Text style={styles.linkText}>
+                Delete review
+              </Text>
+            </View>
+          {/* </Link> */}
+        </Pressable>
       </View>
     </View>
   )
 }
 
 const MyReviews = () => {
-  const { data, error, loading } = useQuery(GET_ME, {
+  const { data, error, loading, refetch } = useQuery(GET_ME, {
     variables: { "includeReviews": true, },
     fetchPolicy: 'cache-and-network',
   });
@@ -124,7 +194,7 @@ const MyReviews = () => {
         data={reviewNodes}
         ItemSeparatorComponent={ItemSeparator}
         keyExtractor={({ id }) => id}
-        renderItem={({ item }) => <ReviewItem item={item} />}
+        renderItem={({ item }) => <ReviewItem item={item} refetch={refetch} />}
       />
     </View>
   )
