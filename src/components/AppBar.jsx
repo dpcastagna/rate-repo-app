@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     paddingTop: Constants.statusBarHeight,
     paddingBottom: Constants.statusBarHeight,
     paddingLeft: Constants.statusBarHeight / 2,
-    paddingRight: Constants.statusBarHeight / 2,
+    paddingRight: Constants.statusBarHeight / 4,
   }
 });
 

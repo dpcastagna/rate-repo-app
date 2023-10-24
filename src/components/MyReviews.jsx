@@ -13,6 +13,7 @@ const styles = StyleSheet.create({
     padding: Constants.statusBarHeight * 0.5,
     display: 'flex',
     flexDirection: 'row',
+    flex: 1,
   },
   reviewLeft: {
     flex: 1,
@@ -66,13 +67,6 @@ const styles = StyleSheet.create({
     height: 10,
     backgroundColor: theme.colors.textLightGray,
   },
-  picker: {
-    padding: 10,
-    backgroundColor: theme.colors.textLightGray,
-  },
-  pickerText: {
-    fontSize: 40,
-  }
 });
 
 const ItemSeparator = () => <View style={styles.separator} />;
@@ -82,31 +76,28 @@ const ReviewItem = ({ item }) => {
   const createdAt = item.createdAt.split('T')[0].split('-').reverse().join('.');
   // const id = review.id;
   const rating = item.rating;
-  const reponame = item.repositoryId;
+  const reponame = item.repository.fullName;
   const text = item.text;
   // console.log(createdAt, id, rating, username);
   return (
-    <View>
-      {/* <Text>jeeeee</Text> */}
-      <View style={styles.reviewContainer} >
-        <View style={styles.reviewLeft} >
-          <View style={styles.scoreBox} >
-            <Text style={styles.scoreText} >
-              {rating}
-            </Text>
-          </View>
-        </View>
-        <View style={styles.reviewRight} >
-          <Text style={styles.reviewName} >
-            {reponame}
-          </Text>
-          <Text style={styles.reviewDate} >
-            {createdAt}
-          </Text>
-          <Text>
-            {text}
+    <View style={styles.reviewContainer} >
+      <View style={styles.reviewLeft} >
+        <View style={styles.scoreBox} >
+          <Text style={styles.scoreText} >
+            {rating}
           </Text>
         </View>
+      </View>
+      <View style={styles.reviewRight} >
+        <Text style={styles.reviewName} >
+          {reponame}
+        </Text>
+        <Text style={styles.reviewDate} >
+          {createdAt}
+        </Text>
+        <Text>
+          {text}
+        </Text>
       </View>
     </View>
   )
@@ -128,10 +119,11 @@ const MyReviews = () => {
   }
 
   return (
-    <View>
-      <FlatList 
+    <View style={{ flex: 1 }} >
+      <FlatList
         data={reviewNodes}
         ItemSeparatorComponent={ItemSeparator}
+        keyExtractor={({ id }) => id}
         renderItem={({ item }) => <ReviewItem item={item} />}
       />
     </View>
