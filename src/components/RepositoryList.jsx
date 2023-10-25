@@ -1,4 +1,4 @@
-import { FlatList, View, StyleSheet, Text } from 'react-native';
+import { FlatList, View, StyleSheet } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { useState } from 'react';
 import RepositoryItem from './RepositoryItem';
@@ -26,7 +26,7 @@ const RepositoryListHeader = ({ setSorter, setFilter }) => {
   const [selected, setSelected] = useState('latest');
 
 
-  console.log(selected);
+  // console.log(selected);
 
   return (
     <View style={styles.picker} >
@@ -49,7 +49,7 @@ const RepositoryListHeader = ({ setSorter, setFilter }) => {
   )
 }
 
-export const RepositoryListContainer = ({ repositories, header }) => {
+export const RepositoryListContainer = ({ repositories, header, onEndReach }) => {
   const repositoryNodes = repositories
     ? repositories.edges.map((edge) => edge.node)
     : [];
@@ -60,6 +60,8 @@ export const RepositoryListContainer = ({ repositories, header }) => {
       ItemSeparatorComponent={ItemSeparator}
       renderItem={({ item }) => <RepositoryItem item={item} />}
       ListHeaderComponent={header}
+      onEndReached={onEndReach}
+      onEndReachedThreshold={0.5}
     />
   );
 };
@@ -67,11 +69,28 @@ export const RepositoryListContainer = ({ repositories, header }) => {
 const RepositoryList = () => {
   const [sorter, setSorter] = useState('latest');
   const [filter,setFilter] = useState('');
-  const { repositories } = useRepositories(sorter, filter);
+  const variables = sorter === 'latest'
+    ? { orderBy: 'CREATED_AT', orderDirection: 'DESC', searchKeyword: filter }
+    : sorter === 'highest'
+      ? { orderBy: 'RATING_AVERAGE', orderDirection: 'DESC', searchKeyword: filter }
+      : { orderBy: 'RATING_AVERAGE', orderDirection: 'ASC', searchKeyword: filter };
+  
+  const { repositories, fetchMore } = useRepositories({first: 5, ...variables});
 
-  console.log('repositorylist sorter, filter: ', sorter, filter);
+  // console.log('repositorylist sorter, filter: ', sorter, filter);
 
-  return <RepositoryListContainer repositories={repositories} header={<RepositoryListHeader setSorter={setSorter} setFilter={setFilter} />} />;
+  const onEndReach = () => {
+    console.log('You have reached the end of the list');
+    fetchMore();
+  };
+
+  return (
+    <RepositoryListContainer
+      repositories={repositories}
+      header={<RepositoryListHeader setSorter={setSorter} setFilter={setFilter} />}
+      onEndReach={onEndReach}
+    />
+  );
 };
 
 export default RepositoryList;

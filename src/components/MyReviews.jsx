@@ -160,13 +160,11 @@ const ReviewItem = ({ item, refetch }) => {
           </Link>
         </Pressable>
         <Pressable onPress={createTwoButtonAlert}>
-          {/* <Link to={`/${id}`}> */}
-            <View style={styles.deleteButton}>
-              <Text style={styles.linkText}>
-                Delete review
-              </Text>
-            </View>
-          {/* </Link> */}
+          <View style={styles.deleteButton}>
+            <Text style={styles.linkText}>
+              Delete review
+            </Text>
+          </View>
         </Pressable>
       </View>
     </View>
@@ -182,7 +180,7 @@ const MyReviews = () => {
   const reviewNodes = data
     ? data.me.reviews.edges.map((edge) => edge.node)
     : [];
-  console.log('MyReviews ME: ', data, reviewNodes);
+  // console.log('MyReviews ME: ', data, reviewNodes);
 
   if (loading) {
     return <View><Text>Loading...</Text></View>

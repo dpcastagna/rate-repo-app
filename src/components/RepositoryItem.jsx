@@ -116,23 +116,15 @@ const ParseItem = (props) => {
 }
 
 const RepositoryItem = ({item}) => {
-  // const backgroundColor = item.id === selectedId ? '#6e3b6e' : '#f9c2ff';
-  // const color = item.id === selectedId ? 'white' : 'black';
   const navigate = useNavigate();
   // console.log(item);
 
   const onPressFunction = () => {
-    console.log('RepositoryItem onPressFunction', item?.id);
+    // console.log('RepositoryItem onPressFunction', item?.id);
     navigate(`/${item?.id}`);
   }
 
   return (
-    // <Item
-    //   item={item}
-    //   onPress={() => setSelectedId(item.id)}
-    //   backgroundColor={backgroundColor}
-    //   textColor={color}
-    // />
     <View testID="repositoryItem" style={styles.container} >
       <Pressable onPress={onPressFunction} >
         <View style={styles.topBox} >
@@ -163,22 +155,6 @@ const RepositoryItem = ({item}) => {
           <ParseItem itemData={item.forksCount} itemText={"Forks"} />
           <ParseItem itemData={item.reviewCount} itemText={"Reviews"} />
           <ParseItem itemData={item.ratingAverage} itemText={"Rating"} />
-          {/* <Text style={styles.bottomItem} >
-            {item.stargazersCount}{"\n"}
-            Stars
-          </Text>
-          <Text style={styles.bottomItem} >
-            {item.forksCount}{"\n"}
-            Forks
-          </Text>
-          <Text style={styles.bottomItem} >
-            {item.reviewCount}{"\n"}
-            Reviews
-          </Text>
-          <Text style={styles.bottomItem} >
-            {item.ratingAverage}{"\n"}
-            Rating
-          </Text> */}
         </View>
       </Pressable>
     </View>
