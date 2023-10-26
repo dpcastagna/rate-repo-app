@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
 const ItemSeparator = () => <View style={styles.separator} />;
 
 const ReviewItem = ({ item, refetch }) => {
-  console.log(item);
+  // console.log(item);
   const createdAt = item.createdAt.split('T')[0].split('-').reverse().join('.');
   const id = item.id;
   const repositoryId = item.repositoryId;
@@ -174,7 +174,7 @@ const ReviewItem = ({ item, refetch }) => {
 const MyReviews = () => {
   const { data, error, loading, refetch } = useQuery(GET_ME, {
     variables: { "includeReviews": true, },
-    fetchPolicy: 'cache-and-network',
+    // fetchPolicy: 'cache-and-network',
   });
 
   const reviewNodes = data

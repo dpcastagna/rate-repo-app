@@ -12,7 +12,7 @@ const RepositorySearch = ({ setFilter }) => {
   useEffect(() => {
     setFilter(value);
   }, [value])
-  console.log('query, debounced text: ', searchQuery, value);
+  // console.log('query, debounced text: ', searchQuery, value);
 
   return (
     <Searchbar

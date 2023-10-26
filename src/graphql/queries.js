@@ -43,6 +43,15 @@ export const GET_ME = gql`
             repository {
               fullName
             }
+            user {
+              reviews {
+                edges {
+                  node {
+                    id
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -51,7 +60,7 @@ export const GET_ME = gql`
 `;
 
 export const GET_SINGLE_REPOSITORY = gql`
-  query Repository ($repositoryId: ID!) {
+  query Repository ($repositoryId: ID!, $first: Int, $after: String) {
     repository(id: $repositoryId) {
       id
       fullName
@@ -63,7 +72,7 @@ export const GET_SINGLE_REPOSITORY = gql`
       description
       language
       url
-      reviews {
+      reviews (first: $first, after: $after) {
         edges {
           node {
             id
@@ -75,6 +84,12 @@ export const GET_SINGLE_REPOSITORY = gql`
               username
             }
           }
+          cursor
+        }
+        pageInfo {
+          endCursor
+          startCursor
+          hasNextPage
         }
       }
     }

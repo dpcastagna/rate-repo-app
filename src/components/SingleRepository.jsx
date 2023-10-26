@@ -129,11 +129,12 @@ const ReviewItem = ({ review }) => {
 
 const SingleRepository = () => {
   const id = useParams().id;
-  const { data, error, loading } = useQuery(GET_SINGLE_REPOSITORY, {
+  const variables = {repositoryId: id}
+  const { data, error, loading, fetchMore, ...result } = useQuery(GET_SINGLE_REPOSITORY, {
     fetchPolicy: 'cache-and-network',
-    variables: {repositoryId: id}
+    variables,
   });
-  console.log(id);
+  // console.log(id);
 
   if (loading) {
     return <View><Text>Loading...</Text></View>
