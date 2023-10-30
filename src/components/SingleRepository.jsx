@@ -1,5 +1,6 @@
 import RepositoryItem from "./RepositoryItem";
-import { GET_SINGLE_REPOSITORY } from "../graphql/queries";
+// import { GET_SINGLE_REPOSITORY } from "../graphql/queries";
+import useSingleRepository from "../hooks/useSingleRepository";
 import { useQuery } from "@apollo/client";
 import { useParams } from "react-router-native";
 import { View, Text, StyleSheet, Pressable, FlatList } from "react-native";
@@ -129,19 +130,41 @@ const ReviewItem = ({ review }) => {
 
 const SingleRepository = () => {
   const id = useParams().id;
-  const variables = {repositoryId: id}
-  const { data, error, loading, fetchMore, ...result } = useQuery(GET_SINGLE_REPOSITORY, {
+  const variables = {
+    repositoryId: id,
+    first: 5,
+  }
+  const { repository, loading, fetchMore } = useSingleRepository({
     fetchPolicy: 'cache-and-network',
-    variables,
+    ...variables,
   });
-  // console.log(id);
+  // console.log('singleRepository data: ', repository);
+  // const handleFetchMore = () => {
+  //   const canFetchMore = !loading && data?.repository.pageInfo.hasNextPage;
+  //   // console.log('handleFetchMore: ', canFetchMore)
+  //   if (!canFetchMore) {
+  //     return [];
+  //   }
+
+  //   fetchMore({
+  //     variables: {
+  //       after: data.repository.pageInfo.endCursor,
+  //       ...variables,
+  //     },
+  //   });
+  // };
+
+  const onEndReach = () => {
+    // console.log('You have reached the end of the reviews');
+    fetchMore();
+  };
 
   if (loading) {
     return <View><Text>Loading...</Text></View>
   }
 
-  const repository = data.repository;
-  const reviews = data.repository.reviews.edges.map((edge) => edge.node);
+  // const repository = data;
+  const reviews = repository.reviews.edges.map((edge) => edge.node);
   // console.log(id, data, error, loading, repository, reviews);
 
   return (
@@ -151,6 +174,8 @@ const SingleRepository = () => {
       keyExtractor={({ id }) => id}
       ListHeaderComponent={() => <RepositoryInfo repository={repository} />}
       ItemSeparatorComponent={ItemSeparator}
+      onEndReached={onEndReach}
+      onEndReachedThreshold={0.5}
     />
   )
 }
